@@ -18,14 +18,10 @@ const CourseState = (props) => {
         });
 
         const resJson = await fetchAllCoursesResponse.json();
-        // console.log(resJson);
         setCourses(resJson)
     }
-
-
-    // Add Course
+    // Add a new course to database
     const AddNewCourse = async(name, code) => {
-
          // API Call
          const fetchAddResponse = await fetch(`${host}/api/courses/addcourse`, {
             method: 'POST',
@@ -45,12 +41,63 @@ const CourseState = (props) => {
             "__v": 0
           }
         setCourses(courses.concat(adCours));
+        const jres = await fetchAddResponse.json();
+        // console.log(jres);
     }
 
+    // Edit the course
+    const editCourseFunc = async(id, name, code) => {
+
+        const fetchEditResponse = await fetch(`${host}/api/courses/updatecourse/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                "login-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjZiMGM4ZjRkNGZkYzkzZmVhNGQ0MDQyIn0sImlhdCI6MTcyMjg2NTgwOX0.03z7mkjH2ucKTZWe3VrF-ldHH-O5aaeEsceRlCB4MR4"
+            },
+            body: JSON.stringify({name, code})
+        });
+
+        const json = fetchEditResponse.json();
+        console.log(json);
+
+        //To udpate course, need new course state because of not directly updating
+        const newCourses = JSON.parse(JSON.stringify(courses));
+
+        for(let index=0; index < newCourses.length; index++) {
+            const elem = newCourses[index];
+            if(elem._id === id ) {
+                newCourses[index].name = name;
+                newCourses[index].code = code;
+                break;
+            }
+        }
+        setCourses(newCourses);
+    }
+
+
+
     // Delete course API CALL
+    const deleteCourse = async (id) => {
+        // console.log(id);
+        // API Call
+        const delCoursesResponse = await fetch(`${host}/api/courses/deletecourse/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                "login-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjZiMGM4ZjRkNGZkYzkzZmVhNGQ0MDQyIn0sImlhdCI6MTcyMjg2NTgwOX0.03z7mkjH2ucKTZWe3VrF-ldHH-O5aaeEsceRlCB4MR4"
+            }
+        });
+
+        const resp = delCoursesResponse.json();
+        console.log(resp);
+
+        const newCourses = courses.filter((adCours) => { return adCours._id !== id  })
+        setCourses(newCourses);
+
+    }
 
     return (
-        <CourseContext.Provider value={{courses, AddNewCourse, fetchAllCourses}}>
+        <CourseContext.Provider value={{courses, AddNewCourse, fetchAllCourses, editCourseFunc,  deleteCourse}}>
             {props.children}
         </CourseContext.Provider>
     )

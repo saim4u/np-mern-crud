@@ -10,6 +10,7 @@ function AddCourse() {
     const handleAddClick = (e) => {
         e.preventDefault();
         AddNewCourse(course.name, course.code);
+        setCourse({name: "", code: ""});
     }
 
     const onChange = (e) => {
