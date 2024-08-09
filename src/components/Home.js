@@ -1,10 +1,10 @@
 import Courses from "./Courses";
 
-function Home() {
-
+function Home(props) {
+const {showAlert} = props;
   return (
     <div>
-      <Courses />
+      <Courses showAlert={showAlert} />
     </div>
   );
 }

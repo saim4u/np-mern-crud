@@ -1,6 +1,20 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-function Navbar() {
+import React, { useContext } from 'react';
+import { Link , useNavigate} from 'react-router-dom';
+import courseContext from '../context/courses/courseContext';
+
+function Navbar(props) {
+  const context = useContext(courseContext);
+  const { loginUser} = context;
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    if(localStorage.getItem('loginToken')) {
+      localStorage.removeItem('loginToken');
+      props.showAlert("Logout successful", "success");
+      navigate("/login");
+    }
+
+  }
   return (
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
   <div className="container-fluid">
@@ -20,9 +34,13 @@ function Navbar() {
           <Link className="nav-link" to="/contact">Contact</Link>
         </li>
       </ul>
-      <form className="d-flex" role="search">
-        <Link className="btn btn-outline-primary" to="/login">Login</Link>
-      </form>
+        {loginUser.role === "student" ? <Link></Link> : <Link className=' btn btn-outline-primary mx-3' to="/createAccount">Create User</Link> }
+        {localStorage.getItem('loginToken') ? <Link className='btn btn-outline-primary mx-3' to="/loggedinUser">Profile</Link> : <div></div>}
+      { !localStorage.getItem('loginToken') ? <form className="d-flex" role="search">
+        <Link className="btn btn-primary mx-3" to="/login">Login</Link> 
+      </form>  
+      : <button className="btn btn-outline-primary mx-3" onClick={handleLogout}>Logout</button>
+      }
     </div>
   </div>
 </nav>

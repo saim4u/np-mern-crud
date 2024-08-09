@@ -1,7 +1,7 @@
 import CourseContext from "../context/courses/courseContext";
 import React, { useContext, useState } from "react";
 
-function AddCourse() {
+function AddCourse(props) {
     const context = useContext(CourseContext);
     const { AddNewCourse} = context;
 
@@ -11,6 +11,7 @@ function AddCourse() {
         e.preventDefault();
         AddNewCourse(course.name, course.code);
         setCourse({name: "", code: ""});
+        props.showAlert("Record added successfully", "success")
     }
 
     const onChange = (e) => {
