@@ -8,7 +8,7 @@ const Login = (props) => {
 
     const hangleLogin = async (e) => {
         e.preventDefault();
-        const fetchAddResponse = await fetch("http://localhost:5000/api/auth/loginuser", {
+        const fetchAddResponse = await fetch("http://localhost:4000/api/auth/loginuser", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -23,6 +23,7 @@ const Login = (props) => {
             //Now redirect using History hoor
             props.showAlert("Login successfully", "success");
             navigate("/");
+            // console.log(loginJson);
         } else {
             props.showAlert("Enter valid login details", "warning")
         }
@@ -37,14 +38,14 @@ const Login = (props) => {
         <div className="row">
             <div className="col-sm-6">
                 <h1>Login</h1>
-                <form>
+                <form onSubmit={hangleLogin}>
                 <div className="mb-3">
                     <input type="email" placeholder='Email' minLength={6} onChange={onChange} value={loginDetails.email} className="form-control" name="email" aria-describedby="emailHelp" required/>
                 </div>
                 <div className="mb-3">
                     <input type="password" minLength={6} onChange={onChange} value={loginDetails.password} placeholder='Password' className="form-control" name="password" required/>
                 </div>
-                <button type="submit" className="btn btn-primary" onClick={hangleLogin}>Submit</button>
+                <button type="submit" className="btn btn-primary">Submit</button>
                 </form>
 
                

@@ -22,26 +22,14 @@ function AddCourse(props) {
     <>
       <div className="container my-3">
         <h1>Add Course</h1>
-        <form>
+        <form onSubmit={handleAddClick}>
           <div className="mb-3">
-            <input
-              type="text" onChange={onChange}
-              className="form-control"
-              name="name"
-              placeholder="Course Name"
-            />
+            <input type="text" onChange={onChange} className="form-control" name="name" placeholder="Course Name" required minLength={3}/>
           </div>
           <div className="mb-3">
-            <input
-              type="text" onChange={onChange}
-              className="form-control"
-              placeholder="Course Code"
-              name="code"
-            />
+            <input type="text" onChange={onChange} className="form-control" placeholder="Course Code" name="code" required minLength={3}/>
           </div>
-          <button type="submit" className="btn btn-primary" onClick={handleAddClick}>
-            Submit
-          </button>
+          <button type="submit" className="btn btn-primary">Submit</button>
         </form>
       </div>
     </>

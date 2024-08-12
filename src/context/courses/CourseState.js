@@ -2,15 +2,12 @@ import React, { useState } from "react";
 import CourseContext from "./courseContext";
 
 const CourseState = (props) => {
-
-  const host = "http://localhost:5000";
-  const initialCourse = [];
-  const [courses, setCourses] = useState(initialCourse);
-  const [loginUser, setLoginUser] = useState(initialCourse);
+  const host = "http://localhost:4000";
+  const [courses, setCourses] = useState([]);
+  const [loginUser, setLoginUser] = useState([]);
 
     // Fetch Loggedin User Detail
     const getLoggedinUser = async () => {
-
         // API Call
         const response = await fetch(`${host}/api/auth/getloginuser`, {
           method: "POST",
@@ -20,7 +17,6 @@ const CourseState = (props) => {
           },
         });
         const resJson = await response.json();
-        // console.log(resJson);
         setLoginUser(resJson);
       };
 
@@ -36,7 +32,6 @@ const CourseState = (props) => {
       });
       const resJson = await fetchAllCoursesResponse.json();
     setCourses(resJson);
-    
   };
     //Fetch all courses
     const fetchAllCoursesAdmin = async () => {
@@ -45,13 +40,13 @@ const CourseState = (props) => {
             method: "GET",
             headers: {
               "Content-Type": "application/json"
-            },
+            }
           });
           const NewresJson = await fetchAllCoursesResponse.json();
-          console.log(NewresJson);
+          // console.log(NewresJson);
         setCourses(NewresJson);
         
-      };
+      }
   // Add a new course to database
   const AddNewCourse = async (name, code) => {
     // API Call
@@ -63,20 +58,9 @@ const CourseState = (props) => {
       },
       body: JSON.stringify({ name, code }),
     });
-
-    // const adCours = {
-    //     "_id": "66b1cd66506ed87deb24b48e",
-    //     "user": "66b0c8f4d4fdc93fea4d4042",
-    //     "name": name,
-    //     "code": code,
-    //     "date": "2024-08-06T07:14:46.194Z",
-    //     "__v": 0
-    //   }
     const addCourseRes = await fetchAddResponse.json();
     setCourses(courses.concat(addCourseRes));
-    // console.log(addCourseRes);
   };
-
   // Edit the course
   const editCourseFunc = async (id, name, code) => {
     const fetchEditResponse = await fetch(`${host}/api/courses/updatecourse/${id}`,
@@ -89,7 +73,6 @@ const CourseState = (props) => {
         body: JSON.stringify({ name, code }),
       }
     );
-
     const json = fetchEditResponse.json();
     console.log(json);
 
@@ -129,8 +112,6 @@ const CourseState = (props) => {
     setCourses(newCourses);
   };
 
-
-
   return (
     <CourseContext.Provider
       value={{courses, loginUser, AddNewCourse, fetchAllCourses, editCourseFunc, deleteCourse, getLoggedinUser,
@@ -141,8 +122,5 @@ const CourseState = (props) => {
   );
 
 };
-
-
-
 
 export default CourseState;

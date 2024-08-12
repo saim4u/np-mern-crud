@@ -58,21 +58,21 @@ const Register = (props) => {
         <div className="row">
             <div className="col-sm-6">
                 <h1>Create account</h1>
-                <form>
+                <form onSubmit={hangleCreateAccount}>
                 <div className="mb-3">
-                    <input type="text" placeholder='Name' onChange={onChange} className="form-control" name="name" aria-describedby="emailHelp"/>
+                    <input type="text" placeholder='Name' onChange={onChange} className="form-control" name="name" aria-describedby="emailHelp" minLength={3} required/>
                 </div>
                 <div className="mb-3">
-                    <input type="email" placeholder='Email' onChange={onChange}  className="form-control" name="email" aria-describedby="emailHelp"/>
+                    <input type="email" placeholder='Email' onChange={onChange}  className="form-control" name="email" aria-describedby="emailHelp" minLength={6} required/>
                 </div>
                 <div className="mb-3">
-                    <input type="password" onChange={onChange} placeholder='Password' className="form-control" name="password"/>
+                    <input type="password" onChange={onChange} placeholder='Password' className="form-control" name="password" minLength={6} required/>
                 </div>
                 <div className="mb-3">
-                    <input type="text" onChange={onChange} placeholder='Admin , Instructor or Student' className="form-control" name="role"/>
+                    <input type="text" onChange={onChange} placeholder='Admin , Instructor or Student' className="form-control" name="role" minLength={3} required={true    }/>
                 </div>
             
-                <button type="submit" className="btn btn-primary" onClick={hangleCreateAccount}>Create account</button>
+                <button type="submit" className="btn btn-primary">Create account</button>
                 </form>
             </div>
         </div>

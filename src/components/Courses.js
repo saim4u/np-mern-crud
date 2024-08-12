@@ -7,21 +7,25 @@ import { useNavigate } from "react-router-dom";
 function Courses(props) {
   const navigate = useNavigate();
   const context = useContext(CourseContext);
-  const { courses, fetchAllCourses, editCourseFunc, fetchAllCoursesAdmin, loginUser } = context;
+  const { courses, fetchAllCourses, editCourseFunc, fetchAllCoursesAdmin, loginUser, getLoggedinUser } = context;
 
   useEffect(() => {
-    const getToken = localStorage.getItem('loginToken');
-    if( getToken ){
-      fetchAllCoursesAdmin();
-    } else if (loginUser.role === "instructor"){
-      fetchAllCourses();
-    }    else if (getToken === "undefined" ){
-      navigate("/login");
-    } else {
+    if( localStorage.getItem('loginToken') ){
+      getLoggedinUser();
+      if(loginUser.role === "admin") {
+        fetchAllCoursesAdmin();
+      } else if(loginUser.role === "student") {
+        fetchAllCoursesAdmin();
+      } else if (loginUser.role === "instructor") {
+          fetchAllCourses();
+      }
+    } 
+    else
+    {
       navigate("/login");
     }
     // eslint-disable-next-line
-  }, []);
+  }, [loginUser]);
 
   const ref = useRef(null);
   const refHide = useRef(null);
@@ -131,6 +135,7 @@ function Courses(props) {
       </div>
 
       <h2>Your Courses</h2>
+      {/* {loginUser.role} */}
       <div className="container row">
         {courses.length === 0 && "No record found"}
         {courses.map((cr) => {

@@ -10,6 +10,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import { useState } from "react";
 import LoggedinUser from "./components/LoggedinUser";
+import Test from "./components/Test";
 
 function App() {
   const [alert, setAlert] = useState(null);
@@ -37,6 +38,8 @@ function App() {
             <Route exact path="/login" element={<Login showAlert={showAlert}/>} />
             <Route exact path="/createAccount" element={<Register showAlert={showAlert} />} />
             <Route exact path="/loggedinUser" element={<LoggedinUser showAlert={showAlert} />} />
+            <Route exact path="/test" element={<Test />}/>
+            <Route exact path="/*" element={<div className="container my-5"><h3>Page not found!</h3></div> }/>
           </Routes>
         </Router>
     </CourseState>
